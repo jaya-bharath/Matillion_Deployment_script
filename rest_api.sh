@@ -1,4 +1,4 @@
-#!/bin/bash
+G#!/bin/bash
 
 set -x
 
@@ -19,15 +19,18 @@ check_variable(){
 
 check_response(){
   var=$1
-  echo $var
-  res=` echo "$var" | jq .success`
+  res="$(echo "$var" | jq .success)"
 
 #  if [[ "${res,,}" -eq "false" ]]
-  if [[ "${res}" -eq "false" ]]
-  then
-    exit 100
+#  if [[ "${res}" -eq "false" ]]
+#if [[ ${res} -eq "truee" ]]
+ 
+if $res
+ then
+    #exit 100
+    echo "success"
   else
-    echo $var
+    exit 100
   fi
 }
 
@@ -35,9 +38,9 @@ check_response(){
 # User created in Matillion with permission enable for API
 user=azure-user
 password=azure-user
-repoName=MatillionDeployment
 workEnv=Dev
-github_url=https://github.com/jaya-bharath/MatillionDeployment.git
+repoName=Matillion_Test_1
+github_url=https://github.com/jaya-bharath/${repoName}.git
 
 #git clone in the current location
 #cp ${repoName}/* .
@@ -71,7 +74,7 @@ fi
 # shellcheck disable=SC2154
 importJob="$(curl -s -u "${user}:${password}" -X POST ${vm_url}/rest/v1/group/name/${group}/project/name/${project}/version/name/${toVersion}/job/import -H "content-type:application/json" --data @${repoName}/${jobName}.json)"
 
-check_response "$importJob"
+#check_response "$importJob"
 
 #test environment availability
 # testEnv="$(curl -s -u "${user}:${password}" -X POST ${vm_url}/rest/v1/group/name/${group}/project/name/${project}/environment/name/${workEnv}/test)"
