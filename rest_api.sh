@@ -34,7 +34,7 @@ check_response(){
 #INPUT FROM JENKINS
 # User created in Matillion with permission enable for API
 user=azure-user
-password=<matillion_instance_password>
+password=azure-user
 repoName=MatillionDeployment
 workEnv=Dev
 github_url=https://github.com/jaya-bharath/MatillionDeployment.git
@@ -74,14 +74,14 @@ importJob="$(curl -s -u "${user}:${password}" -X POST ${vm_url}/rest/v1/group/na
 check_response "$importJob"
 
 #test environment availability
-# testEnv="$(curl -s -u azure-user:azure-user -X POST ${vm_url}/rest/v1/group/name/${group}/project/name/${project}/environment/name/${workEnv}/test)"
-#check_response "$"
+# testEnv="$(curl -s -u "${user}:${password}" -X POST ${vm_url}/rest/v1/group/name/${group}/project/name/${project}/environment/name/${workEnv}/test)"
+#check_response "$testEnv"
 
 #validate job
-#curl -s -u azure-user:azure-user -X POST ${vm_url}/rest/v1/group/name/${group}/project/name/${project}/version/name/${toVersion}/job/name/${jobName}/validate?environmentName=${workEnv}
+#curl -s -u "${user}:${password}" -X POST ${vm_url}/rest/v1/group/name/${group}/project/name/${project}/version/name/${toVersion}/job/name/${jobName}/validate?environmentName=${workEnv}
 
 #schedule job
-scheduleJob="$(curl -s -u azure-user:azure-user -X POST ${vm_url}/rest/v1/group/name/${group}/project/name/${project}/schedule/import -H "content-type:application/json" --data @${repoName}/schedule.json)"
+scheduleJob="$(curl -s -u "${user}:${password}" -X POST ${vm_url}/rest/v1/group/name/${group}/project/name/${project}/schedule/import -H "content-type:application/json" --data @${repoName}/schedule.json)"
 #validate Schedule
 
 check_response "$scheduleJob"
